@@ -4,6 +4,7 @@ import getWeb3, { GANACHE_DEMO_ADDRESSES } from "./utils/getWeb3";
 
 import "./App.css";
 import VaccineCreator from "./minter/VaccineCreator.jsx";
+import VaccineCertifier from "./minter/VaccineCertifier.jsx";
 
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
@@ -62,7 +63,9 @@ class App extends Component {
           <li key={i}>{address}</li>
         ))}
         </ol>
-        <VaccineCreator web3={this.state.web3} dataUri="vaccine://polio" />
+
+        <VaccineCreator web3={this.state.web3} />
+        <VaccineCertifier web3={this.state.web3} />
       </div>
     );
   }
