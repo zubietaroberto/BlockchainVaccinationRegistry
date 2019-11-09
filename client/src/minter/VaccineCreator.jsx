@@ -26,7 +26,7 @@ export default class VaccineCreator extends Component {
     }
 
     onCreateCallback = async () => {
-        const URI = this.getUri() || 'token://vaccine'; // Dummy
+        const URI = this.getUri();
         const result = await this.state.minterContractInstance.methods.create(0, URI).send({
             from: GANACHE_PUBLIC_KEY
         });

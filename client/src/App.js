@@ -5,6 +5,7 @@ import getWeb3, { GANACHE_DEMO_ADDRESSES } from "./utils/getWeb3";
 import "./App.css";
 import VaccineCreator from "./minter/VaccineCreator.jsx";
 import VaccineCertifier from "./minter/VaccineCertifier.jsx";
+import VaccineSearch from "./searcher/VaccineSearch.jsx";
 
 const STATE_MACHINE = [
   "Start",
@@ -105,6 +106,7 @@ class App extends Component {
       content = (
         <>
           <h1>Auditor</h1>
+          <VaccineSearch web3={this.state.web3} />
         </>
       )
     } else if (stateMachine === STATE_MACHINE[3]) {
