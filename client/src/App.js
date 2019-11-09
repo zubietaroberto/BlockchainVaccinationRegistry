@@ -10,8 +10,7 @@ import VaccineSearch from "./searcher/VaccineSearch.jsx";
 const STATE_MACHINE = [
   "Start",
   "Issuer",
-  "Auditor",
-  "Credential"
+  "Auditor"
 ]
 
 class App extends Component {
@@ -72,10 +71,6 @@ class App extends Component {
     this.setState({ stateMachine: STATE_MACHINE[2] });
   }
 
-  goToCredential = () => {
-    this.setState({ stateMachine: STATE_MACHINE[3] });
-  }
-
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -91,7 +86,6 @@ class App extends Component {
           <h1>Index</h1>
           <button onClick={this.goToIssuer}>Issuer</button>
           <button onClick={this.goToAuditor}>Auditor</button>
-          <button onClick={this.goToCredential}>Credential</button>
         </>
       )
     } else if (stateMachine === STATE_MACHINE[1]) {
@@ -109,12 +103,6 @@ class App extends Component {
           <VaccineSearch web3={this.state.web3} />
         </>
       )
-    } else if (stateMachine === STATE_MACHINE[3]) {
-      content = (
-        <>
-          <h1>Credential</h1>
-        </>
-      )
     }
 
     return (
@@ -125,6 +113,8 @@ class App extends Component {
           <li key={i}>{address}</li>
         ))}
         </ol>
+
+        <hr />
 
         { content }
       </div>
