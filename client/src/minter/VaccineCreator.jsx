@@ -5,6 +5,7 @@ import { GANACHE_PUBLIC_KEY } from "../utils/getWeb3.js";
 export default class VaccineCreator extends Component {
     state = {
         minterContractInstance: null,
+        text: '',
         newId: null
     };
 
@@ -20,14 +21,22 @@ export default class VaccineCreator extends Component {
         this.setState({ minterContractInstance: instance});
     }
 
+    getUri = () => {
+        return `token://${this.state.text}`
+    }
+
     onCreateCallback = async () => {
-        const URI = this.props.dataUri || 'token://vaccine'; // Dummy
+        const URI = this.getUri() || 'token://vaccine'; // Dummy
         const result = await this.state.minterContractInstance.methods.create(0, URI).send({
             from: GANACHE_PUBLIC_KEY
         });
 
         const newId = result.events.TransferSingle.returnValues._id;
         this.setState({ newId })
+    }
+
+    onChangeText = event => {
+        this.setState({ text: event.target.value })
     }
 
     render() {
@@ -42,7 +51,8 @@ export default class VaccineCreator extends Component {
         return (
             <>
                 <h2>Mint New Vaccination Token</h2>
-                <p><b>Token URI: {this.props.dataUri}</b></p>
+                <input type="text" value={this.state.text} onChange={this.onChangeText} />
+                <p><b>Token URI:</b> {this.getUri()}</p>
                 <button onClick={this.onCreateCallback}>
                     Create New Vaccine
                 </button>
