@@ -45,7 +45,7 @@ export default class VaccineCertifier extends Component {
 
         console.log(result);
 
-        const { _id, _to } = result.events.TransferSingle.returnValues._id;
+        const { _id, _to } = result.events.TransferSingle.returnValues;
         this.setState({ statusMessage: `Success: Vaccine ${_id} registered to ${_to}` });
     }
 
@@ -62,6 +62,7 @@ export default class VaccineCertifier extends Component {
                 <button onClick={this.onRegister}>
                     Register
                 </button>
+                {this.state.statusMessage}
             </>
         )
     }
