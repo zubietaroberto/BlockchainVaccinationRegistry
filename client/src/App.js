@@ -6,8 +6,21 @@ import "./App.css";
 import VaccineCreator from "./minter/VaccineCreator.jsx";
 import VaccineCertifier from "./minter/VaccineCertifier.jsx";
 
+const STATE_MACHINE = [
+  "Start",
+  "Issuer",
+  "Auditor",
+  "Credential"
+]
+
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = {
+    stateMachine: STATE_MACHINE[0],
+    storageValue: 0,
+    web3: null,
+    accounts: null,
+    contract: null
+  };
 
   componentDidMount = async () => {
     try {
@@ -50,13 +63,60 @@ class App extends Component {
     this.setState({ storageValue: response });
   };
 
+  goToIssuer = () => {
+    this.setState({ stateMachine: STATE_MACHINE[1] });
+  }
+
+  goToAuditor = () => {
+    this.setState({ stateMachine: STATE_MACHINE[2] });
+  }
+
+  goToCredential = () => {
+    this.setState({ stateMachine: STATE_MACHINE[3] });
+  }
+
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+
+    const { stateMachine } = this.state;
+
+    let content = null;
+    if (stateMachine === STATE_MACHINE[0]) {
+      // Index
+      content = (
+        <>
+          <h1>Index</h1>
+          <button onClick={this.goToIssuer}>Issuer</button>
+          <button onClick={this.goToAuditor}>Auditor</button>
+          <button onClick={this.goToCredential}>Credential</button>
+        </>
+      )
+    } else if (stateMachine === STATE_MACHINE[1]) {
+      content = (
+        <>
+          <h1>Vaccine Issuer</h1>
+          <VaccineCreator web3={this.state.web3} />
+          <VaccineCertifier web3={this.state.web3} />
+        </>
+      )
+    } else if (stateMachine === STATE_MACHINE[2]) {
+      content = (
+        <>
+          <h1>Auditor</h1>
+        </>
+      )
+    } else if (stateMachine === STATE_MACHINE[3]) {
+      content = (
+        <>
+          <h1>Credential</h1>
+        </>
+      )
+    }
+
     return (
       <div className="App">
-        <h1>Vaccine Issuer</h1>
         <h2>Available Addresses</h2>
         <ol>
         {GANACHE_DEMO_ADDRESSES.map((address, i) => (
@@ -64,8 +124,7 @@ class App extends Component {
         ))}
         </ol>
 
-        <VaccineCreator web3={this.state.web3} />
-        <VaccineCertifier web3={this.state.web3} />
+        { content }
       </div>
     );
   }
