@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import getWeb3 from "./utils/getWeb3";
+import getWeb3, { GANACHE_DEMO_ADDRESSES } from "./utils/getWeb3";
 
 import "./App.css";
 import VaccineCreator from "./minter/VaccineCreator.jsx";
@@ -56,6 +56,12 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Vaccine Issuer</h1>
+        <h2>Available Addresses</h2>
+        <ol>
+        {GANACHE_DEMO_ADDRESSES.map((address, i) => (
+          <li key={i}>{address}</li>
+        ))}
+        </ol>
         <VaccineCreator web3={this.state.web3} dataUri="vaccine://polio" />
       </div>
     );
