@@ -54,7 +54,7 @@ export default class VaccineSearch extends Component {
                         </thead>
                         <tbody>
                             {this.state.vaccineArray.map((uriEvent, i) => {
-                                const result = this.state.queryResult[uriEvent.returnValues._id];
+                                const result = this.state.queryResult[uriEvent.returnValues._id - 1];
                                 const hasVaccine = parseInt(result) > 0;
                                 return (
                                     <tr key={i}>
